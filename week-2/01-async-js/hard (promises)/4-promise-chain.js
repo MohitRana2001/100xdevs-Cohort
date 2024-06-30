@@ -6,19 +6,49 @@
  */
 
 function wait1(t) {
-
+    return new Promise((resolve, reject) => {
+        setTimeout(resolve , t*1000);
+    });
 }
 
 function wait2(t) {
-
+    return new Promise((resolve, reject) => {
+        setTimeout(resolve , t*1000);
+    });
 }
 
 function wait3(t) {
+    return new Promise((resolve, reject) => {
+        setTimeout(resolve , t*1000);
+    });
+}
+function performOperation(){
+    const startTime = performance.now();
+
+    function calculateTime(t1, t2, t3) {
+        return new Promise((resolve, reject) => {
+            wait1(t1).then(() => {
+                wait2(t2).then(() => {
+                    wait3(t3).then(() => {
+                        resolve(t1 + t2 + t3);
+                    });
+                });
+            });
+        }).then(() => {
+            const endTime = performance.now();
+        
+            const duration = endTime - startTime;
+        
+            // console.log(duration);
+            return duration;
+        });
+    }
+
+    calculateTime(1,2,3).then(totalTime => {
+        console.log(`Total time taken: ${totalTime} milliseconds.`);
+    });
 
 }
 
-function calculateTime(t1, t2, t3) {
-
-}
-
-module.exports = calculateTime;
+performOperation();
+// module.exports = calculateTime;
