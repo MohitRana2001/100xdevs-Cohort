@@ -16,6 +16,22 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const app = express();
+const port = 3000;
+app.get('/' , (req,res) => {
+  let allFiles = {};
+  fs.readdir("./files", (err,files) => {
+    if(err) console.error("could not read files");
 
+    files.forEach((file, index) => {
+      allFiles[index] = file;
+    });
+  });
+  // res.write();
+  console.log(allFiles);
+  res.send(res.status(200).json(allFiles));
+})
 
+app.listen(port , () => {
+  console.log(`Server is running on port ${port}`);
+});
 module.exports = app;
