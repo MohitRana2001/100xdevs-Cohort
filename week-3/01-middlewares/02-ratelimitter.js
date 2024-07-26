@@ -12,16 +12,34 @@ const app = express();
 // clears every one second
 
 let numberOfRequestsForUser = {};
+
+function count(req,res,next){
+  let userId = req.header('user-id');
+  if(!numberOfRequestsForUser[userId]){
+    numberOfRequestsForUser[userId] = 0;
+  }
+  numberOfRequestsForUser[userId] += 1;
+  if(numberOfRequestsForUser[userId] > 5){
+    res.status(404).send('You have been blocked for sending too many requests');
+  }
+  else{
+    next();
+  }
+}
 setInterval(() => {
     numberOfRequestsForUser = {};
 }, 1000)
 
-app.get('/user', function(req, res) {
+app.get('/user',count , function(req, res) {
   res.status(200).json({ name: 'john' });
 });
 
 app.post('/user', function(req, res) {
   res.status(200).json({ msg: 'created dummy user' });
+});
+
+app.listen(3000, () => {
+  console.log('Server is listening on port 3000');
 });
 
 module.exports = app;
