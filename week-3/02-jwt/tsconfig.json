@@ -1,4 +1,8 @@
+
+
 {
+  "include": ["week-3/02-jwt/tsconfig.json", "week-3/02-jwt/tests"],
+  
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig to read more about this file */
 
